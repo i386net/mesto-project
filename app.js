@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-require('dotenv').config();
 
 const { PORT, DB_HOST, SERVER } = process.env;
 
@@ -13,5 +13,7 @@ mongoose.connect(DB_HOST, {
   useCreateIndex: true,
   useFindAndModify: false,
 });
+
+app.use('/users', require('./routes/users'));
 
 app.listen(PORT, () => console.log(`Server is running at: ${SERVER}:${PORT}`));

@@ -18,10 +18,8 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (url) => {
-        pattern.test(url);
-      },
-      message: 'Тут должна быть ссылка',
+      validator: (url) => pattern.test(url),
+      message: (props) => `${props.value} некорректная ссылка`,
     },
   },
 });
