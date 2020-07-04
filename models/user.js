@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const pattern = require('../appdata/pattern');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,6 +17,12 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     required: true,
+    validate: {
+      validator: (url) => {
+        pattern.test(url);
+      },
+      message: 'Тут должна быть ссылка',
+    },
   },
 });
 
