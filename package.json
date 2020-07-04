@@ -23,7 +23,8 @@
   "homepage": "https://github.com/i386net/sprint-13#readme",
   "dependencies": {
     "dotenv": "^8.2.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^5.9.21"
   },
   "devDependencies": {
     "eslint": "^7.4.0",
