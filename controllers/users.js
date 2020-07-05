@@ -3,25 +3,23 @@ const User = require('../models/user');
 const getUsers = (req, res) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(500).send({ message: err.message }));
+    .catch((err) => res.status(500).send({ error: err.message }));
 };
 
-const getUser = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.userId).orFail(
-      new Error(`Пользователь с ${req.params.userId} не найден`)
-    );
-    return res.json({ user });
-  } catch (err) {
-    return res.status(404).send({ message: err.message });
-  }
+const getUser = (req, res) => {
+  User.findById(req.params.userId)
+    .orFail(
+      () => new Error(`Пользователь с таким _id ${req.params.userId} не найден`)
+    )
+    .then((user) => res.send({ data: user }))
+    .catch((err) => res.status(404).send({ error: err.message }));
 };
 
 const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ message: err }));
+    .catch((err) => res.status(500).send({ error: err.message }));
 };
 
 module.exports = { getUsers, getUser, createUser };
