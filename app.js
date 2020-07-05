@@ -25,6 +25,10 @@ mongoose.connect(DB_HOST, {
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
+app.use('*', (req, res) => {
+  res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
+});
+
 app.listen(PORT, () => {
   console.log(`Веб сервер работает по адресу: ${WEB_HOST}:${PORT}`);
   console.log('Сервер БД работает по адресу:', '\x1b[32m\x1b[4m', `${DB_HOST}`);
