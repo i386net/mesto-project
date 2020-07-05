@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
-const { PORT, DB_HOST, SERVER } = process.env;
+const { PORT, DB_HOST, WEB_HOST } = process.env;
 
 const app = express();
 app.use(bodyParser.json());
@@ -12,8 +12,12 @@ mongoose.connect(DB_HOST, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
 });
 
 app.use('/users', require('./routes/users'));
 
-app.listen(PORT, () => console.log(`Server is running at: ${SERVER}:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Веб сервер работает по адресу: ${WEB_HOST}:${PORT}`);
+  console.log('Сервер БД работает по адресу:', '\x1b[32m\x1b[4m', `${DB_HOST}`);
+});
