@@ -6,6 +6,13 @@ const bodyParser = require('body-parser');
 const { PORT, DB_HOST, WEB_HOST } = process.env;
 
 const app = express();
+app.use((req, res, next) => {
+  req.user = {
+    _id: '5f0076239de148b63ec37d15', // вставьте сюда _id созданного в предыдущем пункте пользователя
+  };
+
+  next();
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose.connect(DB_HOST, {
@@ -16,6 +23,7 @@ mongoose.connect(DB_HOST, {
 });
 
 app.use('/users', require('./routes/users'));
+app.use('/cards', require('./routes/cards'));
 
 app.listen(PORT, () => {
   console.log(`Веб сервер работает по адресу: ${WEB_HOST}:${PORT}`);
