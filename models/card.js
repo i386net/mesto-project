@@ -1,5 +1,16 @@
 const mongoose = require('mongoose');
-const pattern = require('../appdata/pattern');
+// const pattern = require('../appdata/pattern');
+const validator = require('validator');
+const { options } = require('../appdata/appdata');
+
+// const options = {
+//   protocols: ['http', 'https'],
+//   require_protocol: true,
+//   require_host: true,
+//   require_valid_protocol: true,
+//   allow_underscores: true,
+//   allow_trailing_dot: false,
+// };
 
 const cardSchema = mongoose.Schema({
   name: {
@@ -12,7 +23,7 @@ const cardSchema = mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (url) => pattern.test(url),
+      validator: (url) => validator.isURL(url, options),
       message: (props) => `${props.value} некорректная ссылка`,
     },
   },

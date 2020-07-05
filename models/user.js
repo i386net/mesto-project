@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const pattern = require('../appdata/pattern');
+const validator = require('validator');
+const { options } = require('../appdata/appdata');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -18,7 +19,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     validate: {
-      validator: (url) => pattern.test(url),
+      validator: (url) => validator.isURL(url, options),
       message: (props) => `${props.value} некорректная ссылка`,
     },
   },
