@@ -13,4 +13,11 @@ const createCard = (req, res) => {
     .catch((err) => res.status(500).send({ message: err.message }));
 };
 
-module.exports = { getCards, createCard };
+const deleteCard = (req, res) => {
+  Card.findByIdAndDelete(req.params.cardId)
+    .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+    .then((card) => res.send({ data: card }))
+    .catch((err) => res.status(404).send({ message: err.message }));
+};
+
+module.exports = { getCards, createCard, deleteCard };
