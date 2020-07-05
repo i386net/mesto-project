@@ -1,12 +1,12 @@
 # Sprint-13
-Yandex.Praktikum Sprint-13
+## Yandex.Praktikum Sprint-13
 
 NodeJS, Express, MongoDB
 
 ## Развертывание
 
 - Установить [Node.JS](https://nodejs.org/en/)
-- Скопировать себе ребозиторий: `git clone git@github.com:i386net/sprint-13.git`
+- Скопировать репозиторий: `git clone git@github.com:i386net/sprint-13.git`
 - Установить зависимости `npm install`
 - Создать в корне файл с переменными окружения, выполнив команду:
     ```shell script
