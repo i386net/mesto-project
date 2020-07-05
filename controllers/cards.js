@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Card = require('../models/card');
 
 const getCards = (req, res) => {
@@ -14,10 +15,13 @@ const createCard = (req, res) => {
 };
 
 const deleteCard = (req, res) => {
-  Card.findByIdAndDelete(req.params.cardId)
-    .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
-    .then((card) => res.send({ data: card, message: 'Карточка удалена' }))
-    .catch((err) => res.status(404).send({ error: err.message }));
+  if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
+    return Card.findByIdAndDelete(req.params.cardId)
+      .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+      .then((card) => res.send({ data: card, message: 'Карточка удалена' }))
+      .catch((err) => res.status(404).send({ error: err.message }));
+  }
+  return res.status(404).send({ error: 'Неверный формат id карточки' });
 };
 
 module.exports = { getCards, createCard, deleteCard };
