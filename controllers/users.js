@@ -9,16 +9,15 @@ const getUsers = (req, res) => {
 
 const getUser = (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
-    User.findById(req.params.userId)
+    return User.findById(req.params.userId)
       .orFail(
         () =>
           new Error(`Пользователь с таким _id ${req.params.userId} не найден`)
       )
       .then((user) => res.send({ data: user }))
       .catch((err) => res.status(404).send({ error: err.message }));
-  } else {
-    return res.status(404).send({ error: 'Неверный формат id' });
   }
+  return res.status(404).send({ error: 'Неверный формат id' });
 };
 
 const createUser = (req, res) => {
