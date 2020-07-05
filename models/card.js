@@ -4,8 +4,8 @@ const pattern = require('../appdata/pattern');
 const cardSchema = mongoose.Schema({
   name: {
     type: String,
-    minlength: 2,
-    maxlength: 30,
+    minlength: [2, 'Минимальная длина имени 2 символа'],
+    maxlength: [30, 'Максимальная длина имени 30 символов'],
     required: true,
   },
   link: {
@@ -13,7 +13,7 @@ const cardSchema = mongoose.Schema({
     required: true,
     validate: {
       validator: (url) => pattern.test(url),
-      message: 'Тут должна быть ссылка',
+      message: (props) => `${props.value} некорректная ссылка`,
     },
   },
   owner: {
