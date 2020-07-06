@@ -10,4 +10,7 @@ const urlValidationOptions = {
   allow_underscores: true,
   allow_trailing_dot: false,
 };
-module.exports = { urlValidationOptions, DB_HOST, PORT, WEB_HOST };
+
+module.exports = {
+  urlValidationOptions, DB_HOST, PORT, WEB_HOST,
+};

@@ -11,8 +11,7 @@ const getUser = (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
     return User.findById(req.params.userId)
       .orFail(
-        () =>
-          new Error(`Пользователь с таким _id ${req.params.userId} не найден`)
+        () => new Error(`Пользователь с таким _id ${req.params.userId} не найден`),
       )
       .then((user) => res.send({ data: user }))
       .catch((err) => res.status(404).send({ error: err.message }));
