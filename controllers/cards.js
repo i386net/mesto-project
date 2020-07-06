@@ -21,7 +21,7 @@ const deleteCard = (req, res) => {
       .then((card) => res.send({ data: card, message: 'Карточка удалена' }))
       .catch((err) => res.status(404).send({ error: err.message }));
   }
-  return res.status(404).send({ error: 'Неверный формат id карточки' });
+  return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
 
 module.exports = { getCards, createCard, deleteCard };

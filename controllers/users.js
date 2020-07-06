@@ -16,7 +16,7 @@ const getUser = (req, res) => {
       .then((user) => res.send({ data: user }))
       .catch((err) => res.status(404).send({ error: err.message }));
   }
-  return res.status(404).send({ error: 'Неверный формат id' });
+  return res.status(400).send({ error: 'Неверный формат id пользователя' });
 };
 
 const createUser = (req, res) => {
