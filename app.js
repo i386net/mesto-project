@@ -2,8 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
-const { PORT, DB_HOST, WEB_HOST } = process.env;
+const { DB_HOST, PORT, WEB_HOST } = require('./appdata/appdata');
 
 const app = express();
 app.use((req, res, next) => {

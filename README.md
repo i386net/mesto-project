@@ -8,10 +8,6 @@ NodeJS, Express, MongoDB
 - Установить [Node.JS](https://nodejs.org/en/)
 - Скопировать репозиторий: `git clone git@github.com:i386net/sprint-13.git`
 - Установить зависимости `npm install`
-- Создать в корне файл с переменными окружения, выполнив команду:
-    ```shell script
-    echo "DB_HOST=mongodb://localhost:27017/mestodb\nPORT=3000\nSERVER=http://localhost\nUSER_ID=1111111\n" >> .env
-   ```
 
 ## Запуск
 
