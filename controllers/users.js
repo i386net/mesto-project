@@ -23,7 +23,12 @@ const createUser = (req, res) => {
   const { name, about, avatar } = req.body;
   User.create({ name, about, avatar })
     .then((user) => res.send({ data: user }))
-    .catch((err) => res.status(500).send({ error: err.message }));
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(400).send({ error: err.message });
+      }
+      return res.status(500).send({ error: err.message });
+    });
 };
 
 module.exports = { getUsers, getUser, createUser };
