@@ -28,7 +28,7 @@ const deleteCard = (req, res) => {
           return Card.findByIdAndDelete(card._id)
             .orFail(() => new Error('С удалением что-то пошло не так'))
             .then((deletedCard) => res.send({ data: deletedCard, message: 'Карточка успешно удалена' }))
-            .catch((err) => res.status(404).send({ error: err.message}));
+            .catch((err) => res.status(404).send({ error: err.message }));
         }
         return res.status(403).send({ error: 'Вы не можете удалять чужие карточки' });
       })
