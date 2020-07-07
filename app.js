@@ -29,5 +29,5 @@ app.use('*', (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`Веб сервер работает по адресу: ${WEB_HOST}:${PORT}`);
-  console.log('Сервер БД работает по адресу:', '\x1b[32m\x1b[4m', `${DB_HOST}`);
+  console.log(`Сервер БД работает по адресу: ${DB_HOST}`);
 });
