@@ -1,0 +1,37 @@
+{
+  "name": "sprint-13",
+  "version": "1.0.0",
+  "description": "SPrint-13 API development",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/i386net/sprint-13.git"
+  },
+  "keywords": [
+    "node",
+    "mongodb",
+    "express"
+  ],
+  "author": "DK",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/i386net/sprint-13/issues"
+  },
+  "homepage": "https://github.com/i386net/sprint-13#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.21",
+    "validator": "^13.1.1"
+  },
+  "devDependencies": {
+    "eslint": "^7.4.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^2.0.4"
+  }
+}
