@@ -37,4 +37,34 @@ const deleteCard = (req, res) => {
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
 
-module.exports = { getCards, createCard, deleteCard };
+const likeCard = (req, res) => {
+  if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
+    return Card.findByIdAndUpdate(
+      req.params.cardId,
+      { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+      { new: true },
+    )
+      .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+      .then((card) => res.send({ data: card }))
+      .catch((err) => res.status(500).send({ error: err.message }));
+  }
+  return res.status(400).send({ error: 'Неверный формат id карточки' });
+};
+
+const dislikeCard = (req, res) => {
+  if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
+    return Card.findByIdAndUpdate(
+      req.params.cardId,
+      { $pull: { likes: req.user._id } },
+      { new: true },
+    )
+      .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+      .then((card) => res.send({ data: card }))
+      .catch((err) => res.status(500).send({ error: err.message }));
+  }
+  return res.status(400).send({ error: 'Неверный формат id карточки' });
+};
+
+module.exports = {
+  getCards, createCard, deleteCard, likeCard, dislikeCard,
+};
