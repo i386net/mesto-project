@@ -37,4 +37,24 @@ const deleteCard = (req, res) => {
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
 
-module.exports = { getCards, createCard, deleteCard };
+const likeCard = (req, res) => Card.findByIdAndUpdate(
+  req.params.cardId,
+  { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+  { new: true },
+)
+  .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+  .then((card) => res.send({ data: card }))
+  .catch((err) => res.status(500).send({ error: err.message }));
+
+const dislikeCard = (req, res) => Card.findByIdAndUpdate(
+  req.params.cardId,
+  { $pull: { likes: req.user._id } }, // убрать _id из массива
+  { new: true },
+)
+  .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+  .then((card) => res.send({ data: card }))
+  .catch((err) => res.status(500).send({ error: err.message }));
+
+module.exports = {
+  getCards, createCard, deleteCard, likeCard, dislikeCard,
+};
