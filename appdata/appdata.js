@@ -1,7 +1,13 @@
 const DB_HOST = 'mongodb://localhost:27017/mestodb';
 const PORT = '3000';
 const WEB_HOST = 'http://localhost';
-
+const dbOptions = {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useFindAndModify: false,
+  useUnifiedTopology: true,
+  connectTimeoutMS: 0,
+};
 const urlValidationOptions = {
   protocols: ['http', 'https'],
   require_protocol: true,
@@ -12,5 +18,5 @@ const urlValidationOptions = {
 };
 
 module.exports = {
-  urlValidationOptions, DB_HOST, PORT, WEB_HOST,
+  urlValidationOptions, dbOptions, DB_HOST, PORT, WEB_HOST,
 };
