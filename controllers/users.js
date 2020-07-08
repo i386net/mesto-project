@@ -49,6 +49,7 @@ const updateUser = (req, res) => {
       return res.status(500).send({ error: err.message });
     });
 };
+
 const updateAvatar = (req, res) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(
