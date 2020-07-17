@@ -1,12 +1,17 @@
-# Sprint-13
-## Yandex.Praktikum Sprint-13
+# Проект Mesto
 
-NodeJS, Express, MongoDB
+## Sprint-14 
+Авторизация и аутентификация пользователя в проект Mesto
+
+## Sprint-13
+Работа с БД.
+
+Стек: NodeJS, Express, MongoDB
 
 ## Развертывание
 
 - Установить [Node.JS](https://nodejs.org/en/)
-- Скопировать репозиторий: `git clone git@github.com:i386net/sprint-13.git`
+- Скопировать репозиторий: `git clone git@github.com:i386net/mesto-project.git`
 - Установить зависимости `npm install`
 
 ## Запуск
