@@ -1,12 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const helmet = require('helmet');
 const colors = require('colors');
 const {
   dbOptions, DB_HOST, PORT, WEB_HOST,
 } = require('./appdata/appdata');
 
 const app = express();
+app.use(helmet());
 app.use((req, res, next) => {
   req.user = {
     _id: '5f054f80fdc156787a88ac64', // вставьте сюда _id созданного в предыдущем пункте пользователя
