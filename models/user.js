@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const bcrypt = require('bcryptjs');
 const { urlValidationOptions, emailValidationOptions } = require('../appdata/appdata');
 
 const userSchema = new mongoose.Schema({
@@ -32,7 +33,26 @@ const userSchema = new mongoose.Schema({
       message: (props) => `${props.value} некорректная почта`,
     },
   },
-  password: {},
+  password: {
+    type: String,
+    required: true,
+    minlength: [8, 'Минимальная длина пароля 8 символов'],
+  },
 });
+
+userSchema.statics.findUserByCredentials = function (email, password) {
+  return this.findOne({ email })
+    .then((user) => {
+      if (!user) {
+        return Promise.reject(new Error('Wrong email or password'));
+      }
+      return bcrypt.compare(password, user.password).then((matched) => {
+        if (!matched) {
+          return Promise.reject((new Error('Wrong email or password')));
+        }
+        return user;
+      });
+    });
+};
 
 module.exports = mongoose.model('user', userSchema);
