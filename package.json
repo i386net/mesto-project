@@ -23,12 +23,14 @@
   },
   "homepage": "https://github.com/i386net/sprint-13#readme",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "colors": "^1.4.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-rate-limit": "^5.1.3",
     "helmet": "^3.23.3",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.21",
     "validator": "^13.1.1"
   },
