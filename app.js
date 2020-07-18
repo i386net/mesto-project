@@ -1,10 +1,7 @@
 require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const helmet = require('helmet');
-const rateLimit = require('express-rate-limit');
-const colors = require('colors');
+const {
+  express, helmet, bodyParser, colors, mongoose, rateLimit,
+} = require('./appdata/imports');
 const {
   dbOptions, DB_HOST, PORT, WEB_HOST,
 } = require('./appdata/appdata');
