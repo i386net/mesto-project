@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 
 const getUsers = (req, res) => {
@@ -20,8 +21,13 @@ const getUser = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const { name, about, avatar } = req.body;
-  User.create({ name, about, avatar })
+  const {
+    name, about, avatar, email,
+  } = req.body;
+  bcrypt.hash(req.body.password, 10)
+    .then((hash) => User.create({
+      name, about, avatar, email, password: hash,
+    }))
     .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -69,6 +75,11 @@ const updateAvatar = (req, res) => {
     });
 };
 
+const login = (req, res, next) => {
+  next();
+  return { req, res };
+};
+
 module.exports = {
-  getUsers, getUser, createUser, updateAvatar, updateUser,
+  getUsers, getUser, createUser, updateAvatar, updateUser, login,
 };
