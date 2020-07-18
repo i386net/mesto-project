@@ -16,7 +16,10 @@ const urlValidationOptions = {
   allow_underscores: true,
   allow_trailing_dot: false,
 };
+const emailValidationOptions = {
+  require_tld: true,
+};
 
 module.exports = {
-  urlValidationOptions, dbOptions, DB_HOST, PORT, WEB_HOST,
+  emailValidationOptions, urlValidationOptions, dbOptions, DB_HOST, PORT, WEB_HOST,
 };

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const { urlValidationOptions } = require('../appdata/appdata');
+const { urlValidationOptions, emailValidationOptions } = require('../appdata/appdata');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
     validate: {
-      validator: (email) => validator.isEmail(email),
+      validator: (email) => validator.isEmail(email, emailValidationOptions),
       message: (props) => `${props.value} некорректная почта`,
     },
   },
