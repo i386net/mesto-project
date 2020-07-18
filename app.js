@@ -3,12 +3,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
 const colors = require('colors');
 const {
   dbOptions, DB_HOST, PORT, WEB_HOST,
 } = require('./appdata/appdata');
 
 const app = express();
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 50,
+});
+app.use(limiter);
 app.use(helmet());
 app.use((req, res, next) => {
   req.user = {
