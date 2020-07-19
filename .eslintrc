@@ -3,6 +3,7 @@
   "ignorePatterns": ["/public/**"],
   "rules": {
     "no-underscore-dangle": "off",
-    "no-console": "off"
+    "no-console": "off",
+    "func-names": "off"
   }
 }
