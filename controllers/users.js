@@ -79,6 +79,7 @@ const updateAvatar = (req, res) => {
 const login = (req, res) => User.findUserByCredentials(req.body.email, req.body.password)
   // todo добавить проверку что пришел пароль?
   .then((user) => {
+    // todo change 'secret-key'
     const token = jwt.sign({ _id: user._id }, 'secret-key', { expiresIn: '7d' });
     res.send(token);
   })
