@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const getUsers = (req, res) => {
@@ -75,10 +76,13 @@ const updateAvatar = (req, res) => {
     });
 };
 
-const login = (req, res, next) => {
-  next();
-  return { req, res };
-};
+const login = (req, res) => User.findUserByCredentials(req.body.email, req.body.password)
+  // todo добавить проверку что пришел пароль?
+  .then((user) => {
+    const token = jwt.sign({ _id: user._id }, 'secret-key', { expiresIn: '7d' });
+    res.send(token);
+  })
+  .catch((err) => res.status(401).send({ error: err.message }));
 
 module.exports = {
   getUsers, getUser, createUser, updateAvatar, updateUser, login,
