@@ -85,12 +85,17 @@ const updateAvatar = (req, res) => {
     });
 };
 
-const login = (req, res) => User.findUserByCredentials(req.body.email, req.body.password)
-  .then((user) => {
-    const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
-    res.send(token);
-  })
-  .catch((err) => res.status(401).send({ error: err.message }));
+const login = (req, res) => {
+  if (!req.body.email) return res.status(400).json({ error: 'Поле Email должно быть заполнено' });
+  if (!req.body.password) return res.status(400).json({ error: 'Поле пароль должно быть заполнено' });
+
+  return User.findUserByCredentials(req.body.email, req.body.password)
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
+      res.send(token);
+    })
+    .catch((err) => res.status(401).send({ error: err.message }));
+};
 
 module.exports = {
   getUsers, getUser, createUser, updateAvatar, updateUser, login,
