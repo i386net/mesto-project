@@ -11,12 +11,6 @@ const auth = require('./middlewares/auth');
 const app = express();
 
 app.use(helmet());
-// app.use((req, res, next) => {
-//   req.user = {
-//     _id: '5f054f80fdc156787a88ac64',
-//   };
-//   next();
-// }); // todo delete
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 mongoose
