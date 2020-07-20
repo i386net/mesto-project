@@ -1,9 +1,9 @@
-const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const validator = require('validator');
+require('dotenv').config();
+const {
+  mongoose, bcrypt, jwt, validator,
+} = require('../appdata/imports');
 const User = require('../models/user');
-const { key } = require('../appdata/jwtdata');
+// const { key } = require('../appdata/jwtdata');
 
 const getUsers = (req, res) => {
   User.find({})
@@ -34,7 +34,7 @@ const createUser = (req, res) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => res.send({
+    .then((user) => res.status(201).send({
       data: {
         name: user.name, about: user.about, avatar: user.avatar, email: user.email,
       },
@@ -91,8 +91,11 @@ const login = (req, res) => {
 
   return User.findUserByCredentials(req.body.email, req.body.password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
-      res.send(token);
+      const token = jwt.sign({ _id: user._id }, 'key', { expiresIn: '7d' });
+      res.cookie('jwt', token, {
+        maxAge: 3600000 * 24 * 7,
+        httpOnly: true,
+      }).end();
     })
     .catch((err) => res.status(401).send({ error: err.message }));
 };
