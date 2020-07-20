@@ -1,6 +1,6 @@
-require('dotenv').config();
+// require('dotenv').config();
 const {
-  express, helmet, bodyParser, colors, mongoose,
+  express, helmet, bodyParser, colors, mongoose, cookieParser,
 } = require('./appdata/imports');
 const {
   dbOptions, DB_HOST, PORT, WEB_HOST,
@@ -13,6 +13,7 @@ const app = express();
 app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 mongoose
   .connect(DB_HOST, dbOptions)
   .then(() => console.log('Соединение с БД установлено:', colors.blue(DB_HOST)))
