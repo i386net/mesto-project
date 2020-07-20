@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
+const { mongoose, validator } = require('../appdata/imports');
 const { urlValidationOptions } = require('../appdata/appdata');
 
 const cardSchema = mongoose.Schema({

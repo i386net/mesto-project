@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const { mongoose } = require('../appdata/imports');
 const Card = require('../models/card');
 
 const getCards = (req, res) => {
