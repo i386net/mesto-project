@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const validator = require('validator');
 const User = require('../models/user');
+const { key } = require('../appdata/jwtdata');
 
 const getUsers = (req, res) => {
   User.find({})
@@ -33,7 +34,11 @@ const createUser = (req, res) => {
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({
+      data: {
+        name: user.name, about: user.about, avatar: user.avatar, email: user.email,
+      },
+    }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(400).send({ error: err.message });
@@ -81,10 +86,8 @@ const updateAvatar = (req, res) => {
 };
 
 const login = (req, res) => User.findUserByCredentials(req.body.email, req.body.password)
-  // todo добавить проверку что пришел пароль?
   .then((user) => {
-    // todo change 'secret-key'
-    const token = jwt.sign({ _id: user._id }, 'secret-key', { expiresIn: '7d' });
+    const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
     res.send(token);
   })
   .catch((err) => res.status(401).send({ error: err.message }));
