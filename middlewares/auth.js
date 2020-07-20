@@ -1,6 +1,5 @@
-require('dotenv').config();
-const jwt = require('../appdata/imports');
-// const { key } = require('../appdata/jwtdata');
+const jwt = require('jsonwebtoken');
+const { key } = require('../appdata/jwtdata');
 
 module.exports = (req, res, next) => {
   if (!req.cookies.jwt) {
@@ -11,7 +10,7 @@ module.exports = (req, res, next) => {
   const token = req.cookies.jwt;
   let payload;
   try {
-    payload = jwt.verify(token, 'key');
+    payload = jwt.verify(token, key);
   } catch (err) {
     return res.status(401).send({ error: 'Необходима авторизация!' });
   }
