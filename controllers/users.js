@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 const User = require('../models/user');
 
 const getUsers = (req, res) => {
@@ -23,9 +24,12 @@ const getUser = (req, res) => {
 
 const createUser = (req, res) => {
   const {
-    name, about, avatar, email,
+    name, about, avatar, email, password,
   } = req.body;
-  bcrypt.hash(req.body.password, 10)
+  if (validator.isEmpty(password) || !validator.isLength(password, { min: 8, max: 16 })) {
+    return res.status(401).send({ error: `Пароль должен быть от 8 до 16 знаков, длина вашего пароля: ${password.length}` });
+  }
+  return bcrypt.hash(password, 10)
     .then((hash) => User.create({
       name, about, avatar, email, password: hash,
     }))
