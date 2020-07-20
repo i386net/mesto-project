@@ -1,4 +1,3 @@
-// require('dotenv').config();
 const {
   express, helmet, bodyParser, colors, mongoose, cookieParser,
 } = require('./appdata/imports');
