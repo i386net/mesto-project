@@ -1,17 +1,19 @@
-const jwt = require('jsonwebtoken');
-const { key } = require('../appdata/jwtdata');
+require('dotenv').config();
+const jwt = require('../appdata/imports');
+// const { key } = require('../appdata/jwtdata');
 
 module.exports = (req, res, next) => {
-  const { authorization } = req.headers;
-  if (!authorization || !authorization.startsWith('Bearer ')) {
-    return res.status(401).send({ error: 'Необходима авторизация' });
+  if (!req.cookies.jwt) {
+    return res
+      .status(401)
+      .send({ message: 'Необходима авторизация' });
   }
-  const token = authorization.replace('Bearer', '');
+  const token = req.cookies.jwt;
   let payload;
   try {
-    payload = jwt.verify(token, key);
+    payload = jwt.verify(token, 'key');
   } catch (err) {
-    return res.status(401).send({ error: 'Необходима авторизация' });
+    return res.status(401).send({ error: 'Необходима авторизация!' });
   }
   req.user = payload;
   return next();
