@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
+const { errHandling } = require('../appdata/errhandling');
 
 const getCards = (req, res) => {
   Card.find({})
@@ -22,7 +23,7 @@ const createCard = (req, res) => {
 const deleteCard = (req, res) => {
   if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     return Card.findById(req.params.cardId)
-      .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+      .orFail() // () => new Error(`Карточка с _id ${req.params.cardId} не найдена`)
       .then((card) => {
         if (card.owner.toString() === req.user._id) {
           return Card.findByIdAndDelete(card._id)
@@ -32,7 +33,7 @@ const deleteCard = (req, res) => {
         }
         return res.status(403).send({ error: 'Вы не можете удалять чужие карточки' });
       })
-      .catch((err) => res.status(404).send({ error: err.message }));
+      .catch((err) => errHandling(err, req, res));
   }
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
@@ -44,9 +45,9 @@ const likeCard = (req, res) => {
       { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
       { new: true },
     )
-      .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+      .orFail()
       .then((card) => res.send({ data: card }))
-      .catch((err) => res.status(404).send({ error: err.message }));
+      .catch((err) => errHandling(err, req, res));
   }
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
@@ -58,9 +59,9 @@ const dislikeCard = (req, res) => {
       { $pull: { likes: req.user._id } },
       { new: true },
     )
-      .orFail(() => new Error(`Карточка с _id ${req.params.cardId} не найдена`))
+      .orFail()
       .then((card) => res.send({ data: card }))
-      .catch((err) => res.status(404).send({ error: err.message }));
+      .catch((err) => errHandling(err, req, res));
   }
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
