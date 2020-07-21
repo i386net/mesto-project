@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
-const { errHandling } = require('../appdata/errhandling');
+const { errHandling } = require('../middlewares/errhandling');
 
 const getCards = (req, res) => {
   Card.find({})
