@@ -106,13 +106,13 @@ const updateAvatar = (req, res) => {
 const login = (req, res) => {
   if (!req.body.email) return res.status(400).json({ error: 'Поле Email должно быть заполнено' });
   if (!req.body.password) return res.status(400).json({ error: 'Поле пароль должно быть заполнено' });
-  console.log(key);
   return User.findUserByCredentials(req.body.email, req.body.password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, key, { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
+        sameSite: 'strict',
       }).end();
     })
     .catch((err) => res.status(401).send({ error: err.message }));
