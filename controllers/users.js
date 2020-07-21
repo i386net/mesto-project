@@ -1,8 +1,23 @@
-const {
-  mongoose, bcrypt, jwt, validator,
-} = require('../appdata/imports');
+const PasswordValidator = require('password-validator');
+const mongoose = require('mongoose');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const { key } = require('../appdata/jwtdata');
+
+const passwordSchema = new PasswordValidator();
+passwordSchema
+  .is().min(8)
+  .is().max(16)
+  .has()
+  .uppercase()
+  .has()
+  .lowercase()
+  .has()
+  .digits()
+  .has()
+  .not()
+  .spaces();
 
 const getUsers = (req, res) => {
   User.find({})
@@ -26,8 +41,9 @@ const createUser = (req, res) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
-  if (validator.isEmpty(password) || !validator.isLength(password, { min: 8, max: 16 })) {
-    return res.status(401).send({ error: `Пароль должен быть от 8 до 16 знаков, длина вашего пароля: ${password.length}` });
+  if (!password) return res.status(401).send({ error: 'Пароль - обязательное поле.' });
+  if (!passwordSchema.validate(password)) {
+    return res.status(401).send({ error: 'Пароль должен быть от 8 до 16 знаков, содержать цифры, заглавные и прописные буквы.' });
   }
   return bcrypt.hash(password, 10)
     .then((hash) => User.create({
