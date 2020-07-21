@@ -4,3 +4,10 @@ module.exports.errHandling = (err, req, res) => {
   }
   return res.status(500).send({ error: err.message });
 };
+
+module.exports.validationErrorHandling = (err, res) => {
+  if (err.name === 'ValidationError') {
+    return res.status(400).send({ error: err.message });
+  }
+  return res.status(500).send({ error: err.message });
+};

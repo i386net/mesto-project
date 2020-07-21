@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const { key } = require('../appdata/jwtdata');
+const { validationErrorHandling } = require('../middlewares/errhandling');
 
 const passwordSchema = new PasswordValidator();
 passwordSchema
@@ -76,12 +77,7 @@ const updateUser = (req, res) => {
     },
   )
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({ error: err.message });
-      }
-      return res.status(500).send({ error: err.message });
-    });
+    .catch((err) => validationErrorHandling(err, res));
 };
 
 const updateAvatar = (req, res) => {
@@ -95,12 +91,7 @@ const updateAvatar = (req, res) => {
     },
   )
     .then((user) => res.send({ data: user }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return res.status(400).send({ error: err.message });
-      }
-      return res.status(500).send({ error: err.message });
-    });
+    .catch((err) => validationErrorHandling(err, res));
 };
 
 const login = (req, res) => {
