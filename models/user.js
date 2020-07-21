@@ -1,6 +1,7 @@
-const {
-  mongoose, mongooseValidator, validator, bcrypt,
-} = require('../appdata/imports');
+const mongoose = require('mongoose');
+const mongooseValidator = require('mongoose-unique-validator');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
 const { urlValidationOptions, emailValidationOptions } = require('../appdata/appdata');
 
 const userSchema = new mongoose.Schema({

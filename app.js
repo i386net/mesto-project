@@ -1,6 +1,9 @@
-const {
-  express, helmet, bodyParser, colors, mongoose, cookieParser,
-} = require('./appdata/imports');
+const express = require('express');
+const helmet = require('helmet');
+const bodyParser = require('body-parser');
+const colors = require('colors');
+const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 const {
   dbOptions, DB_HOST, PORT, WEB_HOST,
 } = require('./appdata/appdata');
