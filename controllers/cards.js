@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
-const { errHandling } = require('../middlewares/errhandling');
+const { cardNotFoundErrHandling } = require('../middlewares/errhandling');
 
 const getCards = (req, res) => {
   Card.find({})
@@ -33,7 +33,7 @@ const deleteCard = (req, res) => {
         }
         return res.status(403).send({ error: 'Вы не можете удалять чужие карточки' });
       })
-      .catch((err) => errHandling(err, req, res));
+      .catch((err) => cardNotFoundErrHandling(err, req, res));
   }
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
@@ -47,7 +47,7 @@ const likeCard = (req, res) => {
     )
       .orFail()
       .then((card) => res.send({ data: card }))
-      .catch((err) => errHandling(err, req, res));
+      .catch((err) => cardNotFoundErrHandling(err, req, res));
   }
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
@@ -61,7 +61,7 @@ const dislikeCard = (req, res) => {
     )
       .orFail()
       .then((card) => res.send({ data: card }))
-      .catch((err) => errHandling(err, req, res));
+      .catch((err) => cardNotFoundErrHandling(err, req, res));
   }
   return res.status(400).send({ error: 'Неверный формат id карточки' });
 };
