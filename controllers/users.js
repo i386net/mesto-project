@@ -42,9 +42,9 @@ const createUser = (req, res) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
-  if (!password) return res.status(401).send({ error: 'Пароль - обязательное поле.' });
+  if (!password) return res.status(400).send({ error: 'Пароль - обязательное поле.' });
   if (!passwordSchema.validate(password)) {
-    return res.status(401).send({ error: 'Пароль должен быть от 8 до 16 знаков, содержать цифры, заглавные и прописные буквы.' });
+    return res.status(400).send({ error: 'Пароль должен быть от 8 до 16 знаков, содержать цифры, заглавные и прописные буквы.' });
   }
   return bcrypt.hash(password, 10)
     .then((hash) => User.create({
