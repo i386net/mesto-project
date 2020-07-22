@@ -57,7 +57,7 @@ const createUser = (req, res) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        if (err.errors.email.kind === 'unique') {
+        if (err.errors.email && err.errors.email.kind === 'unique') {
           return res.status(409).send({ error: err.message });
         }
         return res.status(400).send({ error: err.message });
