@@ -1,7 +1,7 @@
 {
-  "name": "sprint-13",
+  "name": "Mesto",
   "version": "1.0.0",
-  "description": "SPrint-13 API development",
+  "description": "Mesto Project",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/i386net/sprint-13.git"
+    "url": "git@github.com:i386net/mesto-project.git"
   },
   "keywords": [
     "node",
@@ -19,9 +19,9 @@
   "author": "DK",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/i386net/sprint-13/issues"
+    "url": "https://github.com/i386net//mesto-project/issues"
   },
-  "homepage": "https://github.com/i386net/sprint-13#readme",
+  "homepage": "https://github.com/i386net//mesto-project#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
