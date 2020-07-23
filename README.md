@@ -1,12 +1,17 @@
-# Sprint-13
-## Yandex.Praktikum Sprint-13
+# Проект Mesto
 
-NodeJS, Express, MongoDB
+## Sprint-14 
+- [] Аутентификация и авторизация и  пользователя в проекте  Mesto.
+
+## Sprint-13
+ -[x] Работа с БД: 
+  
+  Стек: NodeJS, Express, MongoDB
 
 ## Развертывание
 
 - Установить [Node.JS](https://nodejs.org/en/)
-- Скопировать репозиторий: `git clone git@github.com:i386net/sprint-13.git`
+- Скопировать репозиторий: `git clone git@github.com:i386net/mesto-project.git`
 - Установить зависимости `npm install`
 
 ## Запуск
@@ -18,6 +23,10 @@ NodeJS, Express, MongoDB
 
 | ЗАПРОС | ОТВЕТ | 
 | :---         |     :---       |  
+| POST `localhost:3000/signup`   | Регистрация нового пользователя     |
+| GET `localhost:3000/signin`   | Логин     |
+| PATCH `http://localhost:3000/users/me`   | Изменение информации о пользователе     |
+| PATCH `http://localhost:3000/users/me/avatar`   | Изменение аватара пользователя     |
 | GET `localhost:3000/users`   | JSON-список всех пользователей     |
 | GET `localhost:3000/cards`     | JSON-список всех карточек       | 
 | GET `localhost:3000/users/8340d0ec33270a25f2413b69`     | JSON-пользователя с переданным после /users идентификатором. Если такого нет, API должно возвращать 404 статус ответа и JSON:`{ "message": "Пользователь с таким id не найден" }`       | 
