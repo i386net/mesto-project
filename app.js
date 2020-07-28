@@ -40,6 +40,14 @@ app.use('*', (req, res) => {
   res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
 });
 
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+  res.status(statusCode).send({
+    message: statusCode === 500 ? 'На сервере произошла ошибка' : message,
+  });
+});
+
 app.listen(port, () => {
   console.log(`Веб сервер работает по адресу: ${webHost}:${port}`);
 });
