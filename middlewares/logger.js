@@ -1,6 +1,7 @@
 const winston = require('winston');
 const expressWinston = require('express-winston');
 const moment = require('moment-timezone');
+const path = require('path');
 
 const loggerFormat = winston.format.printf((info) => `${info.timestamp} [${info.level}]: ${JSON.stringify(info.meta)}`);
 const convertTimeZone = winston.format((info, opts) => {
@@ -9,7 +10,7 @@ const convertTimeZone = winston.format((info, opts) => {
 });
 const requestsLogger = expressWinston.logger({
   transports: [new winston.transports.File({
-    filename: './logs/requests.log',
+    filename: path.join(__dirname, '..', 'logs', 'requests.log'),
     level: 'info',
     maxsize: 100000,
     maxFiles: 3,
@@ -23,7 +24,7 @@ const requestsLogger = expressWinston.logger({
 
 const errorsLogger = expressWinston.errorLogger({
   transports: [new winston.transports.File({
-    filename: './logs/errors.log',
+    filename: path.join(__dirname, '..', 'logs', 'errors.log'),
     level: 'error',
     maxsize: 100000,
     maxFiles: 3,
