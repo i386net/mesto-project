@@ -8,21 +8,31 @@ const convertTimeZone = winston.format((info, opts) => {
   return info;
 });
 const requestsLogger = expressWinston.logger({
-  transports: [new winston.transports.File({ filename: './logs/requests.log' })],
+  transports: [new winston.transports.File({
+    filename: './logs/requests.log',
+    level: 'info',
+    maxsize: 100000,
+    maxFiles: 3,
+    tailable: true,
+  })],
   format: winston.format.combine(
     convertTimeZone({ tz: 'Europe/Moscow' }),
     loggerFormat,
   ),
-  level: 'info',
 });
 
 const errorsLogger = expressWinston.errorLogger({
-  transports: [new winston.transports.File({ filename: './logs/errors.log' })],
+  transports: [new winston.transports.File({
+    filename: './logs/errors.log',
+    level: 'error',
+    maxsize: 100000,
+    maxFiles: 3,
+    tailable: true,
+  })],
   format: winston.format.combine(
     convertTimeZone({ tz: 'Europe/Moscow' }),
     loggerFormat,
   ),
-  level: 'error',
 });
 
 module.exports = { requestsLogger, errorsLogger };
