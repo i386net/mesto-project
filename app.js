@@ -23,6 +23,11 @@ mongoose
   .catch((err) => console.log('Ошибка соединения с БД:'.red, err.message));
 app.use(requestsLogger);
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', login);
 app.post('/signup', createUser);
 app.use(auth);
