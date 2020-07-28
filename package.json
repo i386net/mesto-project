@@ -28,14 +28,15 @@
     "colors": "^1.4.0",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
+    "express-winston": "^4.0.5",
     "helmet": "^3.23.3",
     "jsonwebtoken": "^8.5.1",
+    "moment-timezone": "^0.5.31",
     "mongoose": "^5.9.21",
     "mongoose-unique-validator": "^2.0.3",
     "password-validator": "^5.0.3",
     "validator": "^13.1.1",
-    "winston": "^3.3.3",
-    "winston-express": "^0.1.1"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "eslint": "^7.4.0",

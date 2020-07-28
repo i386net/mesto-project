@@ -4,6 +4,7 @@
   "rules": {
     "no-underscore-dangle": "off",
     "no-console": "off",
-    "func-names": "off"
+    "func-names": "off",
+    "no-param-reassign": "off"
   }
 }

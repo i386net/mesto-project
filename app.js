@@ -9,6 +9,7 @@ const {
 } = require('./appdata/appdata');
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
+const { requestsLogger, errorsLogger } = require('./middlewares/logger');
 
 const app = express();
 
@@ -20,12 +21,15 @@ mongoose
   .connect(dbHost, dbOptions)
   .then(() => console.log('Соединение с БД установлено:', colors.blue(dbHost)))
   .catch((err) => console.log('Ошибка соединения с БД:'.red, err.message));
+app.use(requestsLogger);
 
 app.post('/signin', login);
 app.post('/signup', createUser);
 app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
+
+app.use(errorsLogger);
 
 app.use('*', (req, res) => {
   res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
