@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
-const { cardNotFoundErrHandling } = require('../middlewares/errhandling');
+const { cardNotFoundErrHandling } = require('../middlewares/errhandling'); // todo remove this!
 const { BadRequestError } = require('../errors/BadRequestError');
 const { NotFoundError } = require('../errors/NotFoundError');
 
