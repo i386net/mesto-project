@@ -5,6 +5,7 @@
     "no-underscore-dangle": "off",
     "no-console": "off",
     "func-names": "off",
-    "no-param-reassign": "off"
+    "no-param-reassign": "off",
+    "no-unused-vars": "off",
   }
 }
