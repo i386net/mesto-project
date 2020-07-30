@@ -3,6 +3,7 @@ const helmet = require('helmet');
 const bodyParser = require('body-parser');
 const colors = require('colors');
 const mongoose = require('mongoose');
+const { celebrate, errors } = require('celebrate');
 const cookieParser = require('cookie-parser');
 const {
   dbOptions, dbHost, port, webHost,
@@ -11,6 +12,7 @@ const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestsLogger, errorsLogger } = require('./middlewares/logger');
 const { NotFoundError } = require('./errors/NotFoundError');
+const { regValidation, loginValidation } = require('./middlewares/validation');
 
 const app = express();
 
@@ -29,12 +31,13 @@ app.get('/crash-test', () => {
     throw new Error('Сервер сейчас упадёт');
   }, 0);
 });
-app.post('/signin', login);
-app.post('/signup', createUser);
+app.post('/signin', celebrate(loginValidation), login); // todo rename to signinValidation
+app.post('/signup', celebrate(regValidation), createUser); // todo rename to signupValidation
 app.use(auth);
 app.use('/users', require('./routes/users'));
 app.use('/cards', require('./routes/cards'));
 
+app.use(errors());
 app.use(errorsLogger);
 
 app.use('*', (req, res, next) => {
