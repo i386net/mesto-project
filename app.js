@@ -10,6 +10,7 @@ const {
 const { login, createUser } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestsLogger, errorsLogger } = require('./middlewares/logger');
+const { NotFoundError } = require('./errors/NotFoundError');
 
 const app = express();
 
@@ -36,8 +37,8 @@ app.use('/cards', require('./routes/cards'));
 
 app.use(errorsLogger);
 
-app.use('*', (req, res) => {
-  res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
+app.use('*', (req, res, next) => {
+  next(new NotFoundError('Запрашиваемый ресурс не найден.'));
 });
 
 // eslint-disable-next-line no-unused-vars
