@@ -1,13 +1,14 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
-const { cardNotFoundErrHandling } = require('../middlewares/errhandling'); // todo remove this!
+// const { cardNotFoundErrHandling } = require('../middlewares/errhandling'); // todo remove this!
 const { BadRequestError } = require('../errors/BadRequestError');
 const { NotFoundError } = require('../errors/NotFoundError');
+const { ForbiddenError } = require('../errors/ForbiddenError');
 
-const getCards = (req, res) => {
+const getCards = (req, res, next) => {
   Card.find({})
     .then((cards) => res.send({ data: cards }))
-    .catch((err) => res.status(500).send({ error: err.message }));
+    .catch(next);
 };
 
 const createCard = (req, res, next) => {
@@ -35,15 +36,17 @@ const deleteCard = (req, res, next) => {
       .then((card) => {
         if (card.owner.toString() === req.user._id) {
           return Card.findByIdAndDelete(card._id)
-            .orFail(() => new Error('С удалением что-то пошло не так'))
+            .orFail(() => next(new NotFoundError('Карточка с таким id не найдена!')))
             .then((deletedCard) => res.send({ data: deletedCard, message: 'Карточка успешно удалена' }))
-            .catch((err) => next(new NotFoundError('Карточка с таким id не найдена!')));
+            .catch(() => next(new NotFoundError('Карточка с таким id не найдена!')));
         }
-        return res.status(403).send({ error: 'Вы не можете удалять чужие карточки' });
+        // return res.status(403).send({ error: 'Вы не можете удалять чужие карточки' });
+        return next(new ForbiddenError('Вы не можете удалять чужие карточки!'));
       })
-      .catch((err) => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
+      .catch(() => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
   }
-  return res.status(400).send({ error: 'Неверный формат id карточки' });
+  // return res.status(400).send({ error: 'Неверный формат id карточки' });
+  return next(new BadRequestError('Неверный формат id карточки!'));
 };
 
 const likeCard = (req, res, next) => {
@@ -55,9 +58,9 @@ const likeCard = (req, res, next) => {
     )
       .orFail()
       .then((card) => res.send({ data: card }))
-      .catch((err) => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
+      .catch(() => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
   }
-  return res.status(400).send({ error: 'Неверный формат id карточки' });
+  return next(new BadRequestError('Неверный формат id карточки!'));
 };
 
 const dislikeCard = (req, res, next) => {
@@ -69,9 +72,9 @@ const dislikeCard = (req, res, next) => {
     )
       .orFail()
       .then((card) => res.send({ data: card }))
-      .catch((err) => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
+      .catch(() => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
   }
-  return res.status(400).send({ error: 'Неверный формат id карточки' });
+  return next(new BadRequestError('Неверный формат id карточки!'));
 };
 
 module.exports = {
