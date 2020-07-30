@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
 const { key } = require('../appdata/jwtdata');
-// const { validationErrorHandling } = require('../middlewares/errhandling');
+// const { validationErrorHandling } = require('../middlewares/errhandling'); // todo remove this
 const { NotFoundError } = require('../errors/NotFoundError');
 const { ConflictError } = require('../errors/ConflictError');
 const { BadRequestError } = require('../errors/BadRequestError');
@@ -26,22 +26,22 @@ passwordSchema
   .not()
   .spaces();
 
-const getUsers = (req, res) => {
+const getUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ data: users }))
-    .catch((err) => res.status(500).send({ error: err.message }));
+    .catch(next);
 };
 
 const getUser = (req, res, next) => {
   if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
     return User.findById(req.params.userId)
       .orFail(
-        () => new NotFoundError(`Пользователь с таким _id ${req.params.userId} не найден.`),
+        // () => new NotFoundError(`Пользователь с таким _id ${req.params.userId} не найден.`),
       )
       .then((user) => res.send({ data: user }))
-      .catch((err) => next(new NotFoundError(`Пользователь с таким _id ${req.params.userId} не найден!`)));
+      .catch(() => next(new NotFoundError(`Пользователь с таким _id ${req.params.userId} не найден!`)));
   }
-  return res.status(400).send({ error: 'Неверный формат id пользователя' });
+  return next(new BadRequestError('Неверный формат id пользователя'));
 };
 
 const createUser = (req, res, next) => {
@@ -88,7 +88,7 @@ const updateUser = (req, res, next) => {
     },
   )
     .then((user) => res.send({ data: user }))
-    .catch((err) => next(new BadRequestError('Переданы некорректные данные')));
+    .catch(() => next(new BadRequestError('Переданы некорректные данные')));
 };
 
 const updateAvatar = (req, res, next) => {
@@ -102,7 +102,7 @@ const updateAvatar = (req, res, next) => {
     },
   )
     .then((user) => res.send({ data: user }))
-    .catch((err) => next(new BadRequestError('Переданы некорректные данные')));
+    .catch(() => next(new BadRequestError('Переданы некорректные данные')));
 };
 
 const login = (req, res, next) => {
@@ -119,7 +119,7 @@ const login = (req, res, next) => {
         .send({ message: 'Добро пожаловать <(￣︶￣)>' })
         .end();
     })
-    .catch((err) => next(new UnauthorizedError('Ошибка авторизации (×﹏×)')));
+    .catch(() => next(new UnauthorizedError('Ошибка авторизации (×﹏×)')));
 };
 
 module.exports = {
