@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const helmet = require('helmet');
 const bodyParser = require('body-parser');
@@ -104,7 +105,7 @@ app.use(errorsLogger);
 app.use(errors());
 
 app.use('*', (req, res, next) => {
-  next(new NotFoundError('Запрашиваемый ресурс не найден.'));
+  next(new NotFoundError('Ресурс не найден.'));
 });
 
 // eslint-disable-next-line no-unused-vars
