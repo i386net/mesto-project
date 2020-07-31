@@ -1,7 +1,25 @@
 # Проект Mesto
 
+## Sprint-15 
+- [] Деплой проекта на внешний сервер, доступный по адресу:
+
+| Front / Not SSL | Front / SSL | 
+| :---         |     :---       |  
+| http://mesto.i386.me   | https://mesto.i386.me    |
+| http://www.mesto.i386.me   | https://www.mesto.i386.me     |
+| http://130.193.51.165   |      |
+
+| Api / Not SSL | Api / SSL | 
+| :---         |     :---       | 
+| http://api.mesto.i386.me   | https://api.mesto.i386.me     |
+| http://www.api.mesto.i386.me   | https://www.api.mesto.i386.me     |
+
+- [] Валидация данных с помощью Joi/celebrate
+- [] Централизованная обработка ошибок
+- [] Логирование запросов и ошибок
+
 ## Sprint-14 
-- [] Аутентификация и авторизация и  пользователя в проекте  Mesto.
+- [x] Аутентификация и авторизация и  пользователя в проекте  Mesto.
 
 ## Sprint-13
  -[x] Работа с БД: 
