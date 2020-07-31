@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Card = require('../models/card');
-// const { cardNotFoundErrHandling } = require('../middlewares/errhandling'); // todo remove this!
 const { BadRequestError } = require('../errors/BadRequestError');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { ForbiddenError } = require('../errors/ForbiddenError');
@@ -16,11 +15,6 @@ const createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.send({ data: card }))
     .catch((err) => {
-      // todo удалить эти комментарии
-      // if (err.name === 'ValidationError') {
-      //   return res.status(400).send({ error: err.message });
-      // }
-      // return res.status(500).send({ error: err.message });
       let error;
       if (err.name === 'ValidationError') {
         error = new BadRequestError('Неправильные параметры карточки!');
@@ -32,7 +26,7 @@ const createCard = (req, res, next) => {
 const deleteCard = (req, res, next) => {
   if (mongoose.Types.ObjectId.isValid(req.params.cardId)) {
     return Card.findById(req.params.cardId)
-      .orFail() // () => new Error(`Карточка с _id ${req.params.cardId} не найдена`)
+      .orFail()
       .then((card) => {
         if (card.owner.toString() === req.user._id) {
           return Card.findByIdAndDelete(card._id)
@@ -40,12 +34,10 @@ const deleteCard = (req, res, next) => {
             .then((deletedCard) => res.send({ data: deletedCard, message: 'Карточка успешно удалена' }))
             .catch(() => next(new NotFoundError('Карточка с таким id не найдена!')));
         }
-        // return res.status(403).send({ error: 'Вы не можете удалять чужие карточки' });
         return next(new ForbiddenError('Вы не можете удалять чужие карточки!'));
       })
       .catch(() => next(new NotFoundError(`Карточка с _id ${req.params.cardId} не найдена`)));
   }
-  // return res.status(400).send({ error: 'Неверный формат id карточки' });
   return next(new BadRequestError('Неверный формат id карточки!'));
 };
 

@@ -2,8 +2,6 @@ const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
 Joi.objectId = require('joi-objectid')(Joi);
 const { urlRegexPattern } = require('../appdata/appdata');
-// todo remove commented code
-const { idValidation, updateUserValidation, imageUrlValidation } = require('../middlewares/validation');
 const {
   getUsers, getUser, updateAvatar, updateUser,
 } = require('../controllers/users');
