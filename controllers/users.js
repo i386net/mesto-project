@@ -68,13 +68,13 @@ const createUser = (req, res, next) => {
         if (err.errors.email && err.errors.email.kind === 'unique') {
           // return res.status(409).send({ error: err.message });
           error = new ConflictError('Этот логин занят');
-          next(error);
+          return next(error);
         }
         // return res.status(400).send({ error: err.message });
         error = new BadRequestError('Переданы некорректные данные');
       }
       // return res.status(500).send({ error: err.message });
-      next(error);
+      return next(error);
     });
 };
 
