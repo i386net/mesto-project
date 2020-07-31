@@ -65,8 +65,8 @@ app.post('/signup', celebrate({
     about: Joi.string().required().min(2).max(30)
       .messages({
         'any.required': 'Информация обязательное поле',
-        'string.min': 'В имени должно быть не менее {#limit} знаков',
-        'string.max': 'В имени должно быть не более {#limit} знаков',
+        'string.min': 'Информация должна быть не менее {#limit} знаков',
+        'string.max': 'Информация должна быть не более {#limit} знаков',
         'string.empty': 'Поле информации не может быть пустым',
       }),
     avatar: Joi.string().pattern(urlRegexPattern).required()
@@ -88,7 +88,7 @@ app.post('/signup', celebrate({
       .messages(
         {
           'any.required': 'Пароль обязательное поле',
-          'string.alphanum': 'Пароль должен содержать буквы и цифры',
+          'string.alphanum': 'Пароль должен содержать буквы и/или цифры',
           'string.min': 'В пароле должно быть не менее {#limit} знаков',
           'string.max': 'В пароле должно быть не более {#limit} знаков',
           'string.empty': 'Пароль не может быть пустым',
