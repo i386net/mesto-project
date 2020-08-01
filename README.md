@@ -1,13 +1,15 @@
 # Проект Mesto
-
+_On review_ 
 ## Sprint-15 
 - [] Деплой проекта на внешний сервер, доступный по адресу:
+
+IP: `130.193.51.165`
 
 | Front / Not SSL | Front / SSL | 
 | :---         |     :---       |  
 | http://mesto.i386.me   | https://mesto.i386.me    |
 | http://www.mesto.i386.me   | https://www.mesto.i386.me     |
-| http://130.193.51.165   |      |
+
 
 | Api / Not SSL | Api / SSL | 
 | :---         |     :---       | 

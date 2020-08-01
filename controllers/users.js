@@ -1,4 +1,3 @@
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
@@ -7,6 +6,7 @@ const { NotFoundError } = require('../errors/NotFoundError');
 const { ConflictError } = require('../errors/ConflictError');
 const { BadRequestError } = require('../errors/BadRequestError');
 const { UnauthorizedError } = require('../errors/UnauthorizedError');
+const { message } = require('../appdata/messages');
 
 const getUsers = (req, res, next) => {
   User.find({})
@@ -15,13 +15,10 @@ const getUsers = (req, res, next) => {
 };
 
 const getUser = (req, res, next) => {
-  if (mongoose.Types.ObjectId.isValid(req.params.userId)) {
-    return User.findById(req.params.userId)
-      .orFail()
-      .then((user) => res.send({ data: user }))
-      .catch(() => next(new NotFoundError(`Пользователь с таким _id ${req.params.userId} не найден!`)));
-  }
-  return next(new BadRequestError('Неверный формат id пользователя'));
+  User.findById(req.params.userId)
+    .orFail(new NotFoundError(message.userNotFound))
+    .then((user) => res.send({ data: user }))
+    .catch(next);
 };
 
 const createUser = (req, res, next) => {
@@ -41,10 +38,10 @@ const createUser = (req, res, next) => {
       let error;
       if (err.name === 'ValidationError') {
         if (err.errors.email && err.errors.email.kind === 'unique') {
-          error = new ConflictError('Этот логин занят');
+          error = new ConflictError(message.userLoginBusy);
           return next(error);
         }
-        error = new BadRequestError('Переданы некорректные данные');
+        error = new BadRequestError(message.userIncorrectData);
       }
       return next(error);
     });
@@ -61,7 +58,7 @@ const updateUser = (req, res, next) => {
     },
   )
     .then((user) => res.send({ data: user }))
-    .catch(() => next(new BadRequestError('Переданы некорректные данные')));
+    .catch(() => next(new BadRequestError(message.userIncorrectData)));
 };
 
 const updateAvatar = (req, res, next) => {
@@ -75,7 +72,7 @@ const updateAvatar = (req, res, next) => {
     },
   )
     .then((user) => res.send({ data: user }))
-    .catch(() => next(new BadRequestError('Переданы некорректные данные')));
+    .catch(() => next(new BadRequestError(message.userIncorrectData)));
 };
 
 const login = (req, res, next) => User.findUserByCredentials(req.body.email, req.body.password)
@@ -86,10 +83,11 @@ const login = (req, res, next) => User.findUserByCredentials(req.body.email, req
       httpOnly: true,
       sameSite: 'strict',
     })
-      .send({ message: 'Добро пожаловать <(￣︶￣)>' })
+      .send({ message: message.userWelcomeMessage })
       .end();
   })
-  .catch(() => next(new UnauthorizedError('Ошибка авторизации (×﹏×)')));
+  .catch(() => next(new UnauthorizedError(message.userAuthError)));
+
 module.exports = {
   getUsers, getUser, createUser, updateAvatar, updateUser, login,
 };
