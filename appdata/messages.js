@@ -27,6 +27,12 @@ const message = {
   aboutEmpty: 'Поле информации не может быть пустым',
   avatarRequired: 'Аватар обязательное поле',
   avatarEmpty: 'Аватар не может быть пустым',
+  emptyParam: 'Поле не может быть пустым',
+  requiredParam: 'Обязательное поле',
+  emailNotValid: 'Данный адрес не является электронной почтой',
+  passwordAlphaNum: 'Пароль должен содержать буквы и/или цифры',
+  passwordMin: 'В пароле должно быть не менее {#limit} знаков',
+  passwordMax: 'В пароле должно быть не более {#limit} знаков',
 };
 
 module.exports = { message };
