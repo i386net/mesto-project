@@ -37,7 +37,7 @@
     "moment-timezone": "^0.5.31",
     "mongoose": "^5.9.21",
     "mongoose-unique-validator": "^2.0.3",
-    "validator": "^13.1.1",
+    "validator": "^13.7.0",
     "winston": "^3.3.3"
   },
   "devDependencies": {
